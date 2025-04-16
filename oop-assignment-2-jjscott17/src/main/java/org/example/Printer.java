@@ -2,7 +2,7 @@ package org.example;
 
 public class Printer {
     private int tonerLevel;
-    private int pagesPrinted;
+    private int pagesPrinted = 0;
     private boolean duplex;
 
     // Constructor
@@ -30,12 +30,20 @@ public class Printer {
 
     // Method to print pages
     public int printPages(int pages) {
-
         //Define pagesToPrint variable
+        int pagesToPrint = pages;
         // Add conditional statement. If odd, add an extra page
+        if(duplex == true) {
+            pagesToPrint = pages / 2; // print pages double sided
+            pagesToPrint += pages % 2; // add leftover pages
+            pagesPrinted += pagesToPrint;
+        } else {
+            pagesPrinted += pagesToPrint;
+        }
+        return pagesToPrint; // return pagesToPrint;
+    }
 
-
-        return 0; // return pagesToPrint;
-
+    public int getPagesPrinted() {
+        return pagesPrinted;
     }
 }
