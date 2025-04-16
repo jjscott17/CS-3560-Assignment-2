@@ -1,9 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ThroneInheritance {
     String kingName;
@@ -13,12 +10,17 @@ public class ThroneInheritance {
         this.kingName = kingName;
     }
 
-    public void birth(String pn, String cn) {
-
+    public void birth(String parentName, String childName) {
+        // create list of children for the parent if one does not already exist
+        map.putIfAbsent(parentName, new ArrayList<>());
+        // add childName to the list
+        map.get(parentName).add(childName);
+        // label child as alive
+        alive.put(childName, true);
     }
 
     public void death(String name) {
-
+        alive.put(name, false);
     }
 
     public List<String> getInheritanceOrder() {
@@ -32,7 +34,13 @@ public class ThroneInheritance {
 
     private List<String> getList(String p) {   // recursion to get children and build the inheritance list;
         List<String> res = new ArrayList<>();
-
+        res.add(p);
+        // if name is a parent
+        if (map.containsKey(p)) {
+            for (String child : map.get(p)) {
+                res.addAll(getList(child)); // recursively add their children
+            }
+        }
         return res;
     }
 }
